@@ -23,7 +23,7 @@ function varargout = myplot(varargin)
 
 % Edit the above text to modify the response to help myplot
 
-% Last Modified by GUIDE v2.5 19-Nov-2016 15:23:51
+% Last Modified by GUIDE v2.5 19-Nov-2016 22:24:25
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -215,8 +215,8 @@ function pendulum_Callback(hObject, eventdata, handles)
 
 
 % --- Executes during object creation, after setting all properties.
-function pendulum_alex1_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to pendulum_alex1 (see GCBO)
+function MyFunction_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to MyFunction (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -249,14 +249,17 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%[t,x]=ode45(@pendulum_alex1,[0 tmax1],x0); % Численное интегрирование системы
+%[t,x]=ode45(@MyFunction,[0 tmax1],x0); % Численное интегрирование системы
+
+myfun = get(handles.MyFunction, 'String');
 
 tmax = str2num(get(handles.tmax, 'String'))
 x1 = str2num(get(handles.x1, 'String'))
 x2 = str2num(get(handles.x2, 'String'))
 x3 = str2num(get(handles.x3, 'String'))
 
-[t,x]=ode45('pendulum_alex1',[0 tmax],[x1 x2 x3]);
+%[t,x]=ode45('pendulum_alex1',[0 tmax],[x1 x2 x3]);
+[t,x]=ode45('myfun',[0 tmax],[x1 x2 x3]);
 
 plot3(x(:,1),x(:,2),x(:,3),'b');
 
@@ -362,16 +365,6 @@ end
 
 
 
-function pendulum_alex1_Callback(hObject, eventdata, handles)
-% hObject    handle to pendulum_alex1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of pendulum_alex1 as text
-%        str2double(get(hObject,'String')) returns contents of pendulum_alex1 as a double
-
-
-uicontrol(handles.tmax1)
 
 
 % --- Executes during object creation, after setting all properties.
