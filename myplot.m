@@ -23,7 +23,7 @@ function varargout = myplot(varargin)
 
 % Edit the above text to modify the response to help myplot
 
-% Last Modified by GUIDE v2.5 19-Nov-2016 15:23:51
+% Last Modified by GUIDE v2.5 19-Nov-2016 23:38:18
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -250,19 +250,24 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 %[t,x]=ode45(@pendulum_alex1,[0 tmax1],x0); % Численное интегрирование системы
+%fun1 = get(handles.pendulum_alex1, 'String');
 
 tmax = str2num(get(handles.tmax, 'String'))
 x1 = str2num(get(handles.x1, 'String'))
 x2 = str2num(get(handles.x2, 'String'))
 x3 = str2num(get(handles.x3, 'String'))
 
-[t,x]=ode45('pendulum_alex1',[0 tmax],[x1 x2 x3]);
+%[t,x]=ode45('pendulum_alex1',[0 tmax],[x1 x2 x3]);
+[t,x]=ode45(pendulum_alex1,[0 tmax],[x1 x2 x3]);
 
 plot3(x(:,1),x(:,2),x(:,3),'b');
 
 
 sub1 = subplot(1,1,1, 'Parent',handles.Panel1);
 plot3(sub1,x(:,1),x(:,2),x(:,3),'b');
+
+
+%fplot(fun, [Left Right])
 
 
 
@@ -381,3 +386,57 @@ function axes1_CreateFcn(hObject, eventdata, handles)
 % handles    empty - handles not created until after all CreateFcns called
 
 % Hint: place code in OpeningFcn to populate axes1
+
+
+% --- Executes on button press in pushbutton5.
+function pushbutton5_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+%[t,x]=ode45(@pendulum_alex1,[0 tmax1],x0); % Численное интегрирование системы
+fun1 = get(handles.Func, 'String');
+
+tmax = str2num(get(handles.tmax, 'String'))
+x1 = str2num(get(handles.x1, 'String'))
+x2 = str2num(get(handles.x2, 'String'))
+x3 = str2num(get(handles.x3, 'String'))
+
+%[t,x]=ode45('pendulum_alex1',[0 tmax],[x1 x2 x3]);
+[t,x]=ode45(fun1,[0 tmax],[x1 x2 x3]);
+
+plot3(x(:,1),x(:,2),x(:,3),'b');
+
+
+sub1 = subplot(1,1,1, 'Parent',handles.Panel1);
+plot3(sub1,x(:,1),x(:,2),x(:,3),'b');
+
+
+%fplot(fun, [Left Right])
+
+
+
+
+
+function Func_Callback(hObject, eventdata, handles)
+% hObject    handle to Func (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of Func as text
+%        str2double(get(hObject,'String')) returns contents of Func as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function Func_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to Func (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
