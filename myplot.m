@@ -23,7 +23,7 @@ function varargout = myplot(varargin)
 
 % Edit the above text to modify the response to help myplot
 
-% Last Modified by GUIDE v2.5 19-Nov-2016 23:38:18
+% Last Modified by GUIDE v2.5 20-Nov-2016 00:30:46
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -186,6 +186,35 @@ set(handles.btnClear , 'Enable', 'on')
 % передаем фокус области ввода Function
 uicontrol(handles.edtFunction) 
 
+surf(peaks(30))
+
+function myplotgui
+% создание графического окна с заголовком myplotgui и без надписи Figure 1 
+hF = figure('Name', 'myplotgui', 'NumberTitle', 'off');
+% создание осей 
+hA = axes('Position', [0.1 0.2 0.8 0.7]); 
+% создание кнопки и задание свойству Callback значения указателя на подфункцию 
+hBtnPlot = uicontrol('Style', 'pushbutton', ...      
+    'Position', [20 20 120 30],...     
+    'String', 'Plot',...     
+    'Callback', @BtnPlotCallback); 
+function BtnPlotCallback(src,evt) 
+% подфункция обработки события Callback кнопки Plot 
+
+
+tmax = 100;
+x1 = 1;
+x2 = 1;
+x3 = 1;
+
+%[t,x]=ode45('pendulum_alex1',[0 tmax],[x1 x2 x3]);
+[t,x]=ode45('pendulum_alex1',[0 tmax],[x1 x2 x3]);
+
+surf(peaks(30)) 
+
+
+
+
 
 % --- Executes on button press in btnClear.
 function btnClear_Callback(hObject, eventdata, handles)
@@ -229,19 +258,7 @@ end
 
 
 
-function myplotgui
-% создание графического окна с заголовком myplotgui и без надписи Figure 1 
-hF = figure('Name', 'myplotgui', 'NumberTitle', 'off');
-% создание осей 
-hA = axes('Position', [0.1 0.2 0.8 0.7]); 
-% создание кнопки и задание свойству Callback значения указателя на подфункцию 
-hBtnPlot = uicontrol('Style', 'pushbutton', ...      
-    'Position', [20 20 120 30],...     
-    'String', 'Plot',...     
-    'Callback', @BtnPlotCallback); 
-function BtnPlotCallback(src,evt) 
-% подфункция обработки события Callback кнопки Plot 
-surf(peaks(30)) 
+
 
 % --- Executes on button press in pushbutton4.
 function pushbutton4_Callback(hObject, eventdata, handles)
@@ -394,11 +411,8 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
-
-%[t,x]=ode45(@pendulum_alex1,[0 tmax1],x0); % Численное интегрирование системы
+ % Численное интегрирование системы
 fun1 = get(handles.Func, 'String');
-
 tmax = str2num(get(handles.tmax, 'String'))
 x1 = str2num(get(handles.x1, 'String'))
 x2 = str2num(get(handles.x2, 'String'))
@@ -408,10 +422,13 @@ x3 = str2num(get(handles.x3, 'String'))
 [t,x]=ode45(fun1,[0 tmax],[x1 x2 x3]);
 
 plot3(x(:,1),x(:,2),x(:,3),'b');
+%fplot(fun, [Left Right]);
 
 
 sub1 = subplot(1,1,1, 'Parent',handles.Panel1);
 plot3(sub1,x(:,1),x(:,2),x(:,3),'b');
+
+%surf(peaks(30))
 
 
 %fplot(fun, [Left Right])
@@ -440,3 +457,20 @@ function Func_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on button press in pushbutton6.
+function pushbutton6_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% создание графического окна с заголовком myplotgui и без надписи Figure 1 
+hF = figure('Name', 'myplotgui', 'NumberTitle', 'off');
+% создание осей 
+hA = axes('Position', [0.1 0.2 0.8 0.7]); 
+% создание кнопки и задание свойству Callback значения указателя на подфункцию 
+hBtnPlot = uicontrol('Style', 'pushbutton', ...      
+    'Position', [20 20 120 30],...     
+    'String', 'Plot',...     
+    'Callback', @BtnPlotCallback);
