@@ -201,15 +201,6 @@ hBtnPlot = uicontrol('Style', 'pushbutton', ...
 function BtnPlotCallback(src,evt) 
 % подфункция обработки события Callback кнопки Plot 
 
-
-tmax = 100;
-x1 = 1;
-x2 = 1;
-x3 = 1;
-
-%[t,x]=ode45('pendulum_alex1',[0 tmax],[x1 x2 x3]);
-[t,x]=ode45('pendulum_alex1',[0 tmax],[x1 x2 x3]);
-
 surf(peaks(30)) 
 
 
@@ -420,7 +411,18 @@ x3 = str2num(get(handles.x3, 'String'))
 
 [t,x]=ode45(fun1,[0 tmax],[x1 x2 x3]);
 
-figure
+%figure
+% создание графического окна с заголовком myplotgui и без надписи Figure 1 
+hF = figure('Name', 'myplotgui', 'NumberTitle', 'off');
+% создание осей 
+hA = axes('Position', [0.1 0.2 0.8 0.7]); 
+% создание кнопки и задание свойству Callback значения указателя на подфункцию 
+hBtnPlot = uicontrol('Style', 'pushbutton', ...      
+    'Position', [20 20 120 30],...     
+    'String', 'Plot',...     
+    'Callback', @pushbutton8);
+
+
 
 sub2 = subplot(2,2,1);
 plot3(x(:,1),x(:,2),x(:,3),'b');
@@ -438,6 +440,13 @@ plot3(x(:,2),x(:,3),x(:,1),'r');
 %plot3(sub1,x(:,1),x(:,2),x(:,3),'b');
 
 
+function pushbutton8(src,evt) 
+% подфункция обработки события Callback кнопки Plot
+
+for az = -37.5 : .5 : 30
+   view(az, 30)
+   drawnow
+end 
 
 
 
@@ -481,12 +490,12 @@ hA = axes('Position', [0.1 0.2 0.8 0.7]);
 hBtnPlot = uicontrol('Style', 'pushbutton', ...      
     'Position', [20 20 120 30],...     
     'String', 'Plot',...     
-    'Callback', @BtnPlotCallback);
+    'Callback', @pushbutton5);
 
-for az = -37.5 : .5 : 30
-    view(az, 30)
-    drawnow
-end 
+%for az = -37.5 : .5 : 30
+ %   view(az, 30)
+  %  drawnow
+%end 
 
 
 % --- Executes on mouse press over axes background.
@@ -502,6 +511,8 @@ function pushbutton7_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton7 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
 for az = -37.5 : .5 : 30
     view(az, 30)
     drawnow
