@@ -204,6 +204,10 @@ function BtnPlotCallback(src,evt)
 % подфункция обработки события Callback кнопки Plot 
 
 surf(peaks(30)) 
+for az = -37.5 : .5 : 30
+  view(az, 30)
+  drawnow
+end 
 
 
 
@@ -503,12 +507,9 @@ hA = axes('Position', [0.1 0.2 0.8 0.7]);
 hBtnPlot = uicontrol('Style', 'pushbutton', ...      
     'Position', [20 20 120 30],...     
     'String', 'Plot',...     
-    'Callback', @pushbutton5);
+    'Callback', @BtnPlotCallback);
 
-%for az = -37.5 : .5 : 30
- %   view(az, 30)
-  %  drawnow
-%end 
+
 
 
 % --- Executes on mouse press over axes background.
