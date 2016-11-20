@@ -23,7 +23,7 @@ function varargout = myplot(varargin)
 
 % Edit the above text to modify the response to help myplot
 
-% Last Modified by GUIDE v2.5 20-Nov-2016 14:16:53
+% Last Modified by GUIDE v2.5 20-Nov-2016 14:33:01
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -420,10 +420,22 @@ x3 = str2num(get(handles.x3, 'String'))
 
 [t,x]=ode45(fun1,[0 tmax],[x1 x2 x3]);
 
+figure
+
+sub2 = subplot(2,2,1);
 plot3(x(:,1),x(:,2),x(:,3),'b');
 
-sub1 = subplot(1,1,1, 'Parent',handles.Panel1);
-plot3(sub1,x(:,1),x(:,2),x(:,3),'b');
+sub3 = subplot(2,2,2);
+plot3(x(:,1),x(:,3),x(:,2),'g');
+
+sub4 = subplot(2,2,3);
+plot3(x(:,2),x(:,1),x(:,3),'r');
+
+sub5 = subplot(2,2,4);
+plot3(x(:,2),x(:,3),x(:,1),'r');
+
+%sub1 = subplot(1,1,1, 'Parent',handles.Panel1);
+%plot3(sub1,x(:,1),x(:,2),x(:,3),'b');
 
 
 
@@ -494,3 +506,10 @@ for az = -37.5 : .5 : 30
     view(az, 30)
     drawnow
    end 
+
+
+% --------------------------------------------------------------------
+function Untitled_1_Callback(hObject, eventdata, handles)
+% hObject    handle to Untitled_1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
