@@ -14,7 +14,7 @@ function varargout = myplot(varargin)
 %      existing singleton*.  Starting from the left, property value pairs are
 %      applied to the GUI before myplot_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to myplot_OpeningFcn via varargin.
+%      btnstop.  All inputs are passed to myplot_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
 %      instance to run (singleton)".
@@ -23,7 +23,7 @@ function varargout = myplot(varargin)
 
 % Edit the above text to modify the response to help myplot
 
-% Last Modified by GUIDE v2.5 20-Nov-2016 14:33:01
+% Last Modified by GUIDE v2.5 20-Nov-2016 16:54:44
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -42,6 +42,8 @@ if nargout
 else
     gui_mainfcn(gui_State, varargin{:});
 end
+
+
 % End initialization code - DO NOT EDIT
 
 
@@ -287,6 +289,7 @@ function tmax_Callback(hObject, eventdata, handles)
 % hObject    handle to tmax1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+uicontrol(handles.x1)
 
 % Hints: get(hObject,'String') returns contents of tmax1 as text
 %        str2double(get(hObject,'String')) returns contents of tmax1 as a double
@@ -310,6 +313,7 @@ function x1_Callback(hObject, eventdata, handles)
 % hObject    handle to x1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+uicontrol(handles.x2)
 
 % Hints: get(hObject,'String') returns contents of x1 as text
 %        str2double(get(hObject,'String')) returns contents of x1 as a double
@@ -333,6 +337,7 @@ function x2_Callback(hObject, eventdata, handles)
 % hObject    handle to x2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+uicontrol(handles.x3)
 
 % Hints: get(hObject,'String') returns contents of x2 as text
 %        str2double(get(hObject,'String')) returns contents of x2 as a double
@@ -356,6 +361,8 @@ function x3_Callback(hObject, eventdata, handles)
 % hObject    handle to x3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set(handles.pushbutton8, 'Enable', 'on')
+uicontrol(handles.pushbutton8)
 
 % Hints: get(hObject,'String') returns contents of x3 as text
 %        str2double(get(hObject,'String')) returns contents of x3 as a double
@@ -419,7 +426,7 @@ hA = axes('Position', [0.1 0.2 0.8 0.7]);
 % создание кнопки и задание свойству Callback значения указателя на подфункцию 
 hBtnPlot = uicontrol('Style', 'pushbutton', ...      
     'Position', [20 20 120 30],...     
-    'String', 'Plot',...     
+    'String', 'Rotation',...     
     'Callback', @pushbutton8);
 
 
@@ -427,17 +434,22 @@ hBtnPlot = uicontrol('Style', 'pushbutton', ...
 sub2 = subplot(2,2,1);
 plot3(x(:,1),x(:,2),x(:,3),'b');
 
-sub3 = subplot(2,2,2);
-plot3(x(:,1),x(:,3),x(:,2),'g');
+%sub3 = subplot(3,3,2);
+%plot3(x(:,1),x(:,3),x(:,2),'g');
 
-sub4 = subplot(2,2,3);
-plot3(x(:,2),x(:,1),x(:,3),'r');
+sub4 = subplot(2,2,2);
+plot3(x(:,2),x(:,1),x(:,3),'y');
 
-sub5 = subplot(2,2,4);
+sub5 = subplot(2,2,3);
 plot3(x(:,2),x(:,3),x(:,1),'r');
 
-%sub1 = subplot(1,1,1, 'Parent',handles.Panel1);
-%plot3(sub1,x(:,1),x(:,2),x(:,3),'b');
+%sub6 = subplot(3,3,5);
+%plot3(x(:,3),x(:,2),x(:,1),'k');
+
+sub7 = subplot(2,2,4);
+plot3(x(:,3),x(:,2),x(:,2),'c');
+
+
 
 
 function pushbutton8(src,evt) 
@@ -458,6 +470,7 @@ function Func_Callback(hObject, eventdata, handles)
 % hObject    handle to Func (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+uicontrol(handles.tmax)
 
 % Hints: get(hObject,'String') returns contents of Func as text
 %        str2double(get(hObject,'String')) returns contents of Func as a double
@@ -524,3 +537,132 @@ function Untitled_1_Callback(hObject, eventdata, handles)
 % hObject    handle to Untitled_1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton8.
+function pushbutton8_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Численное интегрирование системы
+fun1 = get(handles.Func, 'String');
+tmax = str2num(get(handles.tmax, 'String'))
+x1 = str2num(get(handles.x1, 'String'))
+x2 = str2num(get(handles.x2, 'String'))
+x3 = str2num(get(handles.x3, 'String'))
+
+
+% присваиваем 1 флагу продолжения вычислений 
+%calcflag=1;
+% записываем его в данные приложения
+%guidata(hObject,calcflag)
+% цикл по броскам точек
+%while calcflag
+    
+    
+[t,x]=ode45(fun1,[0 tmax],[x1 x2 x3]);
+
+   
+       % calcflag=guidata(hObject);
+%end 
+
+plot3(x(:,1),x(:,2),x(:,3),'m');
+
+sub1 = subplot(1,1,1, 'Parent',handles.Panel1);
+plot3(sub1,x(:,1),x(:,2),x(:,3),'b');
+
+
+% делаем доступной кнопку Clear
+set(handles.btnClear , 'Enable', 'on')
+set(handles.Clear2 , 'Enable', 'on')
+set(handles.pushbutton7 , 'Enable', 'on')
+set(handles.pushbutton5 , 'Enable', 'on')
+
+% передаем фокус области ввода Function
+uicontrol(handles.Func) 
+
+
+
+
+
+
+% --- Executes on button press in Clear2.
+function Clear2_Callback(hObject, eventdata, handles)
+% hObject    handle to Clear2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% очистка осей
+cla
+% удаление  содержимого  областей ввода
+set(handles.Func,  'String',  '')
+set(handles.tmax,  'String',   '')
+set(handles.x1,  'String',   '')
+set(handles.x2,  'String',   '')
+set(handles.x3,  'String',   '')
+% делаем кнопки Plot и Clear  недоступными
+set(handles.Clear2,  'Enable',   'off')
+set(handles.pushbutton8,  'Enable',   'off')
+set(handles.pushbutton7,  'Enable',   'off')
+set(handles.pushbutton5,  'Enable',   'off')
+% передаем  фокус  области ввода  Function
+uicontrol(handles.Func)
+
+
+% --- Executes on button press in togglebutton1.
+function togglebutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to togglebutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of togglebutton1
+
+
+% --- Executes on button press in pushbutton10.
+function pushbutton10_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+
+
+
+
+% --- Executes on button press in btnStop.
+function btnStop_Callback(hObject, eventdata, handles)
+% hObject    handle to btnStop (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+tmax=100;
+
+% Подфункция обработки нажатия на кнопку Stop
+
+% обнуляем флаг продолжения вычислений
+calcflag=0;
+% сохраняем его как данные приложения
+guidata(hObject,calcflag)
+
+
+
+
+
+%uicontrol('Style','pushbutton','Position',[170 10 70 20],...
+    %'String','Stop','Callback',@btnStop_Callback)
+
+
+% --- Executes on button press in slow_function.
+function slow_function_Callback(hObject, eventdata, handles)
+% hObject    handle to slow_function (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if true
+  cleanupObj = onCleanup( @() disp('Опа!') );
+  clear cleanupObj;
+ end
+ disp('Сообщение');
+
